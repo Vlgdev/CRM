@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="app-main-layout">
+    <Loader v-if="loading"/>
+    <div class="app-main-layout" v-else>
       <Navbar @toggle-nav="navOpen = !navOpen" />
       <Sidebar :isOpen="navOpen" />
 
@@ -22,6 +23,7 @@
 <script>
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import messages from '@/utils/messages'
 
 export default {
   name: "MainLayout",
@@ -30,7 +32,25 @@ export default {
     Sidebar
   },
   data: () => ({
-    navOpen: true
-  })
+    navOpen: true,
+    loading: true
+  }),
+  async mounted() {
+    if (!Object.keys(this.$store.getters.info).length) {
+      await this.$store.dispatch('getUserInfo')
+    }
+
+    this.loading = false
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error
+    },
+  },
+  watch: {
+    error() {
+      this.$error(messages['default'])
+    }
+  },
 };
 </script>

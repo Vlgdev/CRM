@@ -107,9 +107,7 @@ export default {
       try {
         await this.$store.dispatch('login', formData);
         this.$router.push('/');
-      } catch (e) {
-        throw new Error(e.message)
-      }
+      } catch (e) {}
     },
   },
 };

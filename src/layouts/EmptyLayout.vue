@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import messages from '@/utils/messages'
+
 export default {
   name: 'EmptyLayout',
   computed: {
@@ -15,10 +17,8 @@ export default {
     }
   },
   watch: {
-    error(fbError) {
-      const message = fbError && fbError.code ? fbError.code : 'Что-то пошло не так'
-      this.$error(message)
-      console.log(fbError);
+    error({code}) {
+      this.$error(messages[code] || messages['default'])
     }
   }
 }

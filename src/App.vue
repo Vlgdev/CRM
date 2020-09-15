@@ -18,8 +18,8 @@ export default {
   computed: {
     layout() {
       return (this.$route.meta.layout || 'empty') + '-layout'
-    }
-  }
+    },
+  },
 }
 </script>
 
