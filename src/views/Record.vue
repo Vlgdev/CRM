@@ -100,7 +100,8 @@ export default {
           type: this.type,
           categoryId: this.category,
           amount: this.amount,
-          description: this.description
+          description: this.description,
+          date: new Date().toJSON()
         }
         try {
           await this.$store.dispatch("createRecord", recordData);
