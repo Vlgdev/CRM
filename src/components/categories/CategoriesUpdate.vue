@@ -2,7 +2,7 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>Редактировать</h4>
+        <h4>{{'Categories_EditTitle' | localize}}</h4>
       </div>
 
       <form @submit.prevent="submitHandler">
@@ -10,7 +10,7 @@
           <select ref="select" v-model="current">
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{cat.title}}</option>
           </select>
-          <label>Выберите категорию</label>
+          <label>{{'Categories_Select' | localize}}</label>
         </div>
 
         <div class="input-field">
@@ -20,11 +20,11 @@
             v-model.trim="title"
             :class="{invalid: $v.title.$dirty && !$v.title.required}"
           />
-          <label for="name">Название</label>
+          <label for="name">{{'Input_Category' | localize}}</label>
           <span
             v-if="$v.title.$dirty && !$v.title.required"
             class="helper-text invalid"
-          >Введите название</span>
+          >{{'ErrorInputReq_Category' | localize}}</span>
         </div>
 
         <div class="input-field">
@@ -34,15 +34,15 @@
             v-model.number="limit"
             :class="{invalid: $v.limit.$dirty && (!$v.limit.required || !$v.limit.minValue)}"
           />
-          <label for="limit">Лимит</label>
+          <label for="limit">{{'Input_Limit' | localize}}</label>
           <span
             v-if="$v.limit.$dirty && (!$v.limit.required || !$v.limit.minValue)"
             class="helper-text invalid"
-          >Минимальное значение {{$v.limit.$params.minValue.min}}</span>
+          >{{'ErrorInputMin_Limit' | localize}} {{$v.limit.$params.minValue.min}}</span>
         </div>
 
         <button class="btn waves-effect waves-light" type="submit">
-          Обновить
+          {{'Categories_EditBtn' | localize}}
           <i class="material-icons right">send</i>
         </button>
       </form>
@@ -52,6 +52,7 @@
 
 <script>
 import { required, minValue } from "vuelidate/lib/validators";
+import localizeFilter from '@/filters/localize.filter'
 
 export default {
   name: "CategoriesUpdate",
@@ -97,7 +98,7 @@ export default {
       }
       try {
         await this.$store.dispatch('updateCategory', categoryData)
-        this.$message('Категория успешно обновлена')
+        this.$message(localizeFilter('Message_CategoryUpdated'))
         this.$emit('updated', categoryData)
       } catch (e) {}
     }

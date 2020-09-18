@@ -1,9 +1,11 @@
+import localizeFilter from '../filters/localize.filter'
+
 export default {
-    'default': 'Что-то пошло не так',
-    'logout': 'Вы вышли из системы',
-    'login': 'Войдите в систему',
-    'auth/wrong-password': 'Вы ввели неверный пароль',
-    'auth/user-not-found': 'Пользователя с таким email не существует',
-    'auth/email-already-in-use': 'Пользователь с таким email уже существует',
-    'auth/network-request-failed': 'Не удалось подключиться к серверу. Проверьте подключение к интернету'
+    'default': localizeFilter('Message_default'),
+    'logout': localizeFilter('Message_logout'),
+    'login': localizeFilter('Message_login'),
+    'auth/wrong-password': localizeFilter('Message_auth/wrong-password'),
+    'auth/user-not-found': localizeFilter('Message_auth/user-not-found'),
+    'auth/email-already-in-use': localizeFilter('Message_auth/email-already-in-use'),
+    'auth/network-request-failed': localizeFilter('Message_auth/network-request-failed')
 }

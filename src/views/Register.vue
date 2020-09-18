@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="submitHandler">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">{{'RegisterTitle' | localize}}</span>
       <div class="input-field">
         <input
           id="email"
@@ -13,11 +13,11 @@
         <small
           v-if="$v.email.$dirty && !$v.email.required"
           class="helper-text invalid"
-        >Введите Email</small>
+        >{{'ErrorInputReq_Email' | localize}}</small>
         <small
           v-else-if="$v.email.$dirty && !$v.email.email"
           class="helper-text invalid"
-        >Введите корректный Email</small>
+        >{{'ErrorInputUncorrect_Email' | localize}}</small>
       </div>
       <div class="input-field">
         <input
@@ -26,56 +26,55 @@
           v-model.trim="password"
           :class="{invalid: $v.password.$dirty && (!$v.password.required || !$v.password.minLength)}"
         />
-        <label for="password">Пароль</label>
+        <label for="password">{{'Input_Password' | localize}}</label>
         <small
           v-if="$v.password.$dirty && !$v.password.required"
           class="helper-text invalid"
-        >Введите пароль</small>
+        >{{'ErrorInputReq_Password' | localize}}</small>
         <small
           v-else-if="$v.password.$dirty && !$v.password.minLength"
           class="helper-text invalid"
-        >Должно быть не меньше {{$v.password.$params.minLength.min}} символов. Сейчас {{password.length}}</small>
+        >{{'ErrorInputMin_Password_1' | localize}} {{$v.password.$params.minLength.min}} {{'ErrorInputMin_Password_2' | localize}} {{password.length}}</small>
       </div>
       <div class="input-field">
         <input
           id="name"
           type="text"
           v-model.trim="name"
-          :class="{invalid: $v.name.$dirty && (!$v.name.required || !$v.name.minLength || !$v.name.onlyLetters)}"
+          :class="{invalid: $v.name.$dirty && (!$v.name.required || !$v.name.onlyLetters)}"
         />
-        <label for="name">Имя</label>
-        <small v-if="$v.name.$dirty && !$v.name.required" class="helper-text invalid">Введите имя</small>
+        <label for="name">{{'Input_Name' | localize}}</label>
+        <small
+          v-if="$v.name.$dirty && !$v.name.required"
+          class="helper-text invalid"
+        >{{'ErrorInputReq_Name' | localize}}</small>
         <small
           v-else-if="$v.name.$dirty && !$v.name.onlyLetters"
           class="helper-text invalid"
-        >В имени присутствуют недопустимые символы</small>
-        <small
-          v-else-if="$v.name.$dirty && !$v.name.minLength"
-          class="helper-text invalid"
-        >Должно быть не меньше {{$v.name.$params.minLength.min}} символов. Сейчас {{name.length}}</small>
+        >{{'ErrorInputUncorrect_Name' | localize}}</small>
       </div>
       <p>
         <label>
           <input type="checkbox" v-model="rules" />
-          <span>С правилами согласен</span>
+          <span>{{'Register_Rules' | localize}}</span>
         </label>
       </p>
       <small
         v-if="$v.rules.$dirty && !$v.rules.truthy"
         class="helper-text invalid"
-      >Поставьте галочку, если вы согласны с правилами</small>
+      >{{'Register_RulesError' | localize}}</small>
     </div>
     <div class="card-action">
       <div>
         <button class="btn waves-effect waves-light auth-submit" type="submit">
-          Зарегистрироваться
+          {{'RegisterBtn' | localize}}
           <i class="material-icons right">send</i>
         </button>
       </div>
 
       <p class="center">
-        Уже есть аккаунт?
-        <router-link to="/login">Войти!</router-link>
+        {{'haveAccount' | localize}}
+        <router-link to="/login">{{'haveAccount_Link' | localize}}</router-link>
       </p>
     </div>
   </form>
@@ -103,7 +102,6 @@ export default {
     },
     name: {
       required,
-      minLength: minLength(2),
       onlyLetters: value => /^[a-zA-Zа-яА-Я]*$/.test(value)
     },
     rules: {
@@ -123,7 +121,7 @@ export default {
       };
 
       try {
-        await this.$store.dispatch('register', formData)
+        await this.$store.dispatch("register", formData);
         this.$router.push("/");
       } catch (e) {}
     }

@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="submitHandler">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">{{'LoginTitle' | localize}}</span>
       <div class="input-field">
         <input
           id="email"
@@ -15,15 +15,11 @@
         <small
           v-if="$v.email.$dirty && !$v.email.email"
           class="helper-text invalid"
-        >
-          Введите корректный Email
-        </small>
+        >{{'ErrorInputUncorrect_Email' | localize}}</small>
         <small
           v-else-if="$v.email.$dirty && !$v.email.required"
           class="helper-text invalid"
-        >
-          Введите Email
-        </small>
+        >{{'ErrorInputReq_Email' | localize}}</small>
       </div>
       <div class="input-field">
         <input
@@ -36,19 +32,14 @@
               (!$v.password.required || !$v.password.minLength),
           }"
         />
-        <label for="password">Пароль</label>
+        <label for="password">{{'Input_Password' | localize}}</label>
         <small
           v-if="$v.password.$dirty && !$v.password.required"
           class="helper-text invalid"
-        >
-          Введите пароль
-        </small>
-        <small
-          v-else-if="$v.password.$dirty && !$v.password.minLength"
-          class="helper-text invalid"
-        >
-          Должно быть не меньше
-          {{ $v.password.$params.minLength.min }} символов. Сейчас
+        >{{'ErrorInputReq_Password' | localize}}</small>
+        <small v-else-if="$v.password.$dirty && !$v.password.minLength" class="helper-text invalid">
+          {{'ErrorInputMin_Password_1' | localize}}
+          {{ $v.password.$params.minLength.min }} {{'ErrorInputMin_Password_2' | localize}}
           {{ password.length }}
         </small>
       </div>
@@ -56,38 +47,38 @@
     <div class="card-action">
       <div>
         <button class="btn waves-effect waves-light auth-submit" type="submit">
-          Войти
+          {{'LoginBtn' | localize}}
           <i class="material-icons right">send</i>
         </button>
       </div>
 
       <p class="center">
-        Нет аккаунта?
-        <router-link to="/register">Зарегистрироваться</router-link>
+        {{'NoAccount' | localize}}
+        <router-link to="/register">{{'NoAccount_Link' | localize}}</router-link>
       </p>
     </div>
   </form>
 </template>
 
 <script>
-import { email, required, minLength } from 'vuelidate/lib/validators';
-import messages from '@/utils/messages';
+import { email, required, minLength } from "vuelidate/lib/validators";
+import messages from "@/utils/messages";
 
 export default {
-  name: 'Login',
+  name: "Login",
   data: () => ({
-    email: '',
-    password: '',
+    email: "",
+    password: ""
   }),
   validations: {
     email: {
       email,
-      required,
+      required
     },
     password: {
       required,
-      minLength: minLength(6),
-    },
+      minLength: minLength(6)
+    }
   },
   mounted() {
     if (this.$route.query.message) {
@@ -102,13 +93,13 @@ export default {
       }
       const formData = {
         email: this.email,
-        password: this.password,
+        password: this.password
       };
       try {
-        await this.$store.dispatch('login', formData);
-        this.$router.push('/');
+        await this.$store.dispatch("login", formData);
+        this.$router.push("/");
       } catch (e) {}
-    },
-  },
+    }
+  }
 };
 </script>

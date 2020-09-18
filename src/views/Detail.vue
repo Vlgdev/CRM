@@ -3,22 +3,25 @@
     <Loader v-if="loading" />
 
     <p class="center" v-else-if="!record">
-      Не удалось найти запись
-      <router-link to="/history">Обратно на страницу истории</router-link>
+      {{'DetailNotFound' | localize}}
+      <router-link to="/history">{{'DetailNotFound_Link' | localize}}</router-link>
     </p>
 
     <div v-else>
       <div class="breadcrumb-wrap">
-        <router-link to="/history" class="breadcrumb">История</router-link>
-        <a class="breadcrumb">{{record.typeText}}</a>
+        <router-link to="/history" class="breadcrumb">{{'Detail_BreadcrumbRoot' | localize}}</router-link>
+        <a
+          @click.prevent
+          class="breadcrumb"
+        >{{(record.type === 'income' ? 'Income' : 'Outcome') | loaclize}}</a>
       </div>
       <div class="row">
         <div class="col s12 m6">
           <div class="card" :class="[record.typeClass]">
             <div class="card-content white-text">
-              <p>Описание: {{record.description}}</p>
-              <p>Сумма: {{record.amount}}</p>
-              <p>Категория: {{record.categoryName}}</p>
+              <p>{{'Detail_Descr' | localize}} {{record.description}}</p>
+              <p>{{'Detail_Amount' | localize}} {{record.amount}}</p>
+              <p>{{'Detail_Category' | localize}} {{record.categoryName}}</p>
 
               <small>{{record.date | date('datetime')}}</small>
             </div>
@@ -39,16 +42,18 @@ export default {
   async mounted() {
     try {
       const record = await this.$store.dispatch(
-        "fetchRecord",
+        "fetchRecordById",
         this.$route.params.id
       );
-      const categories = await this.$store.dispatch("fetchCategories");
       if (record) {
+        const category = await this.$store.dispatch(
+          "fetchCategoryById",
+          record.categoryId
+        );
         this.record = {
           ...record,
-          categoryName: categories.find(c => c.id === record.categoryId).title,
-          typeClass: record.type === "income" ? "green" : "red",
-          typeText: record.type === "income" ? "Доход" : "Расход"
+          categoryName: category.title,
+          typeClass: record.type === "income" ? "green" : "red"
         };
       }
 

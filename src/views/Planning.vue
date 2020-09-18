@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Планирование</h3>
+      <h3>{{'PlanningTitle' | localize}}</h3>
       <h4>{{info.bill | currency('RUB')}}</h4>
     </div>
 
     <section>
       <Loader v-if="loading" />
       <p class="center" v-else-if="!categories.length">
-        У вас еще нет ни одной категории.
-        <router-link to="/categories">Добавить новую категорию</router-link>
+        {{'NoCategories' | localize}}
+        <router-link to="/categories">{{'NoCategories_Link' | localize}}</router-link>
       </p>
       <div v-else v-for="cat in categories" :key="cat.id">
         <p>
@@ -31,6 +31,7 @@
 <script>
 import { mapGetters } from "vuex";
 import currencyFilter from "@/filters/currency.filter";
+import localizeFilter from "@/filters/localize.filter";
 
 export default {
   name: "Planning",
@@ -58,9 +59,13 @@ export default {
             percent < 60 ? "green" : percent < 100 ? "yellow" : "red";
 
           const tooltipValue = cat.limit - spend;
+          const tooltipText = localizeFilter(
+            tooltipValue < 0 ? "PlanningExcess" : "PlanningRemainder"
+          );
           const tooltip =
-            (tooltipValue < 0 ? "Превышение на " : "Осталось ") +
-            currencyFilter(Math.abs(tooltipValue));
+            tooltipValue >= 0 && this.$store.getters.info.locale === "en-US"
+              ? currencyFilter(Math.abs(tooltipValue)) + tooltipText
+              : tooltipText + currencyFilter(Math.abs(tooltipValue));
           return { ...cat, spend, progressPercent, progressColor, tooltip };
         });
       }
