@@ -91,6 +91,11 @@ export default {
     name: "",
     rules: false
   }),
+  metaInfo() {
+    return {
+      title: this.$title('PageTitle_Register')
+    }
+  },
   validations: {
     email: {
       email,

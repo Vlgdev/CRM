@@ -70,6 +70,11 @@ export default {
     email: "",
     password: ""
   }),
+  metaInfo() {
+    return {
+      title: this.$title('PageTitle_Login')
+    }
+  },
   validations: {
     email: {
       email,

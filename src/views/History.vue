@@ -51,6 +51,11 @@ export default {
     HistoryTable,
     Chart
   },
+  metaInfo() {
+    return {
+      title: this.$title('PageTitle_History')
+    }
+  },
   data: () => ({
     records: [],
     categories: [],

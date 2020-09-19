@@ -30,6 +30,11 @@ export default {
     updateCount: 0,
     loading: true
   }),
+  metaInfo() {
+    return {
+      title: this.$title('PageTitle_Categories')
+    }
+  },
   components: {
     CategoriesCreate,
     CategoriesUpdate

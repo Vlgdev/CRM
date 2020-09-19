@@ -39,6 +39,11 @@ export default {
     record: null,
     loading: true
   }),
+  metaInfo() {
+    return {
+      title: this.$title("PageTitle_Detail")
+    };
+  },
   async mounted() {
     try {
       const record = await this.$store.dispatch(

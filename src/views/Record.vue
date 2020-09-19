@@ -85,6 +85,11 @@ export default {
     amount: 1,
     description: ""
   }),
+  metaInfo() {
+    return {
+      title: this.$title('PageTitle_Record')
+    }
+  },
   validations: {
     amount: { required, minValue: minValue(1) },
     description: { required }

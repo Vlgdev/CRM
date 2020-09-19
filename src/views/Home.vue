@@ -29,6 +29,11 @@ export default {
     loading: true,
     currencies: null,
   }),
+  metaInfo() {
+    return {
+      title: this.$title('PageTitle_Home')
+    }
+  },
   components: {
     HomeBill,
     HomeCurrency,

@@ -8,7 +8,7 @@ export default function localizeFilter(value) {
 
   const ru = ruLocale
 
-  const locale = store.getters.info.locale || 'en-US'
+  const locale = store.getters.info.locale || 'ru-RU'
 
   return locale === 'ru-RU' ? ru[value] : en[value]
 }
